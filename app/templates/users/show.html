@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Gestión de usuarios{% endblock %}
+
+{% block extra_styles %}
+<style>
+  .admin-nav { display:flex; gap:.8rem; margin-bottom:1.5rem;
+               flex-wrap:wrap; align-items:center; }
+  .user-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+  .user-table th {
+    background:var(--azul); color:var(--blanco);
+    padding:.65rem 1rem; text-align:left; font-weight:500; font-size:.78rem;
+  }
+  .user-table th:first-child { border-radius:6px 0 0 0; }
+  .user-table th:last-child  { border-radius:0 6px 0 0; }
+  .user-table td {
+    padding:.7rem 1rem; border-bottom:1px solid var(--gris-suave);
+    vertical-align:middle;
+  }
+  .user-table tr:last-child td { border-bottom:none; }
+  .user-table tr:hover td { background:#f4f8ff; }
+
+  .badge { display:inline-block; padding:.2rem .7rem;
+           border-radius:99px; font-size:.72rem; font-weight:600; }
+  .badge-admin  { background:#dbeafe; color:#1e40af; }
+  .badge-viewer { background:#f0fdf4; color:#166534; }
+  .badge-off    { background:#f1f5f9; color:#64748b; }
+
+  .action-btn {
+    display:inline-flex; align-items:center; gap:.3rem;
+    padding:.35rem .75rem; border-radius:6px; font-size:.78rem;
+    font-weight:500; border:1.5px solid transparent;
+    cursor:pointer; text-decoration:none; transition:opacity .15s;
+  }
+  .action-btn:hover { opacity:.8; }
+  .btn-edit   { color:var(--azul-medio); border-color:var(--azul-medio); background:transparent; }
+  .btn-delete { color:var(--rojo); border-color:var(--rojo); background:transparent; }
+  .btn-toggle { color:#6b7280; border-color:#d1d5db; background:transparent; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-nav">
+  <a href="{{ url_for('admin.dashboard') }}"
+     class="btn btn-outline" style="padding:.45rem 1.1rem;">← Dashboard</a>
+  <strong style="font-size:1rem; color:var(--azul);">👥 Usuarios del sistema</strong>
+  <a href="{{ url_for('users.create') }}"
+     class="btn btn-primary" style="margin-left:auto; padding:.45rem 1.2rem;">
+    + Nuevo usuario
+  </a>
+</div>
+
+<div class="card" style="padding:0; overflow:hidden;">
+  {% if users %}
+  <div style="overflow-x:auto;">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre completo</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Último login</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td>
+            <strong>{{ u.username }}</strong>
+            {% if u.id == current_user_id %}
+              <span style="font-size:.7rem; color:var(--gris-medio);">(tú)</span>
+            {% endif %}
+          </td>
+          <td>{{ u.fullname }}</td>
+          <td style="color:var(--gris-medio);">{{ u.email }}</td>
+          <td>
+            <span class="badge badge-{{ u.role }}">{{ u.role }}</span>
+          </td>
+          <td>
+            {% if u.is_active %}
+              <span class="badge badge-viewer">Activo</span>
+            {% else %}
+              <span class="badge badge-off">Inactivo</span>
+            {% endif %}
+          </td>
+          <td style="color:var(--gris-medio); font-size:.78rem;">
+            {% if u.last_login %}
+              {{ u.last_login.strftime('%d/%m/%Y %H:%M') }}
+            {% else %}
+              Nunca
+            {% endif %}
+          </td>
+          <td>
+            <div style="display:flex; gap:.4rem; flex-wrap:wrap;">
+              <a href="{{ url_for('users.edit', user_id=u.id) }}"
+                 class="action-btn btn-edit">✏ Editar</a>
+
+              {% if u.id != current_user_id %}
+                <!-- Toggle activo/inactivo -->
+                <form method="POST"
+                      action="{{ url_for('users.toggle_active', user_id=u.id) }}">
+                  <button type="submit" class="action-btn btn-toggle">
+                    {{ '⏸ Desactivar' if u.is_active else '▶ Activar' }}
+                  </button>
+                </form>
+
+                <!-- Eliminar con confirmación -->
+                <form method="POST"
+                      action="{{ url_for('users.delete', user_id=u.id) }}"
+                      onsubmit="return confirm('¿Eliminar a {{ u.fullname }}? Esta acción no se puede deshacer.')">
+                  <button type="submit" class="action-btn btn-delete">🗑 Eliminar</button>
+                </form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="padding:3rem; text-align:center; color:var(--gris-medio);">
+    <div style="font-size:2.5rem; margin-bottom:.8rem;">👤</div>
+    <p>No hay usuarios registrados aún.</p>
+    <a href="{{ url_for('users.create') }}" class="btn btn-primary"
+       style="margin-top:1rem;">Crear el primero</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

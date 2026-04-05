@@ -1,0 +1,105 @@
+{% extends "base.html" %} {% block title %}Inicio · Investigación Digital 2026{%
+endblock %} {% block content %}
+<div class="card" style="text-align: center; padding: 3rem 2.5rem">
+  <div style="font-size: 3rem; margin-bottom: 1rem">🔐</div>
+  <h2 class="card-title" style="font-size: 1.6rem; margin-bottom: 0.8rem">
+    Datos personales e internet:<br />¿cómo nos afectan?
+  </h2>
+  <p
+    style="
+      font-size: 0.95rem;
+      color: #4a5a6a;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    "
+  >
+    Estudio sobre la influencia de la información personal compartida en
+    internet en la vida de <strong>adultos jóvenes en Colombia</strong> durante
+    2026. La encuesta toma aproximadamente <strong>8 minutos</strong>.
+  </p>
+
+  <div
+    style="
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    "
+  >
+    <div
+      style="
+        background: #f0f6ff;
+        border-radius: 8px;
+        padding: 0.8rem 1.4rem;
+        font-size: 0.83rem;
+        color: #2b5f8e;
+      "
+    >
+      📋 <strong>3 secciones</strong> temáticas
+    </div>
+    <div
+      style="
+        background: #f0f6ff;
+        border-radius: 8px;
+        padding: 0.8rem 1.4rem;
+        font-size: 0.83rem;
+        color: #2b5f8e;
+      "
+    >
+      🔒 Datos <strong>anónimos</strong>
+    </div>
+    <div
+      style="
+        background: #f0f6ff;
+        border-radius: 8px;
+        padding: 0.8rem 1.4rem;
+        font-size: 0.83rem;
+        color: #2b5f8e;
+      "
+    >
+      ⏱ ~8 <strong>minutos</strong>
+    </div>
+    <div
+      style="
+        background: #f0f6ff;
+        border-radius: 8px;
+        padding: 0.8rem 1.4rem;
+        font-size: 0.83rem;
+        color: #2b5f8e;
+      "
+    >
+      🇨🇴 Solo para <strong>18-35 años</strong> en Colombia
+    </div>
+  </div>
+
+  <a
+    href="{{ url_for('encuesta.consentimiento') }}"
+    class="btn btn-primary"
+    style="font-size: 1rem; padding: 0.9rem 2.5rem"
+  >
+    Iniciar encuesta →
+  </a>
+</div>
+
+<div class="card" style="padding: 1.5rem 2rem">
+  <p
+    style="
+      font-size: 0.82rem;
+      color: #8898aa;
+      line-height: 1.8;
+      text-align: center;
+    "
+  >
+    Esta investigación es de carácter académico. Tus respuestas son
+    completamente anónimas y se usarán exclusivamente con fines investigativos.
+    Al participar, aceptas el tratamiento de tus datos conforme a la
+    <strong>Ley 1581 de 2012</strong> (Habeas Data) de Colombia. Investigador
+    responsable: <strong>{{ investigacion.responsable }}</strong> ·
+    <a href="mailto:{{ investigacion.contacto }}" style="color: #2b5f8e"
+      >{{ investigacion.contacto }}</a
+    >
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Consentimiento informado · Investigación Digital 2026{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2 class="card-title">📋 Consentimiento informado y política de cookies</h2>
+  <p class="card-subtitle">
+    Antes de iniciar, lee detenidamente la siguiente información. Tu participación es voluntaria y puedes
+    retirarte en cualquier momento sin consecuencias.
+  </p>
+
+  <div style="background:#f4f7fc; border-radius:8px; padding:1.2rem 1.5rem; margin-bottom:1.8rem; font-size:.84rem; line-height:1.9; color:#3a4a5a;">
+    <p><strong>Propósito del estudio:</strong> Analizar cómo la información personal compartida en internet
+    influye en la vida de adultos jóvenes en Colombia durante 2026.</p>
+    <p style="margin-top:.6rem;"><strong>¿Qué datos recopilamos?</strong> Datos demográficos (edad, ciudad, género), hábitos de uso digital
+    y experiencias relacionadas con la exposición de datos personales.</p>
+    <p style="margin-top:.6rem;"><strong>¿Cómo se protegen tus datos?</strong> Toda la información se almacena de forma segura,
+    sin nombre ni identificación personal. Tu dirección IP se anonimiza antes de guardarse.
+    Los datos se usarán exclusivamente con fines académicos.</p>
+    <p style="margin-top:.6rem;"><strong>Base legal:</strong> Ley 1581 de 2012 (Habeas Data) y Decreto 1377 de 2013 — Colombia.</p>
+  </div>
+
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <p style="font-size:.83rem; font-weight:600; color:#1a3a5c; margin-bottom:.8rem; text-transform:uppercase; letter-spacing:.05em;">
+      Autorización de datos personales
+    </p>
+
+    <label class="consent-check required-check">
+      {{ form.acepto_tratamiento_datos(style="margin-top:3px;") }}
+      <span>
+        <strong>* Obligatorio:</strong>
+        {{ form.acepto_tratamiento_datos.label.text }}
+      </span>
+    </label>
+    {% if form.acepto_tratamiento_datos.errors %}
+      <p class="field-error">⚠ {{ form.acepto_tratamiento_datos.errors[0] }}</p>
+    {% endif %}
+
+    <p style="font-size:.83rem; font-weight:600; color:#1a3a5c; margin-top:1.4rem; margin-bottom:.8rem; text-transform:uppercase; letter-spacing:.05em;">
+      Política de cookies
+    </p>
+
+    <label class="consent-check required-check">
+      {{ form.acepto_cookies_funcionales() }}
+      <span>
+        <strong>Cookies funcionales (necesarias):</strong>
+        {{ form.acepto_cookies_funcionales.label.text }}
+      </span>
+    </label>
+
+    <label class="consent-check">
+      {{ form.acepto_cookies_analiticas() }}
+      <span>
+        <strong>Cookies analíticas (opcionales):</strong>
+        {{ form.acepto_cookies_analiticas.label.text }}
+      </span>
+    </label>
+
+    <div style="margin-top:2rem;">
+      {{ form.submit(class="btn btn-primary") }}
+      <a href="{{ url_for('main.index') }}" class="btn btn-outline" style="margin-left:1rem;">
+        No deseo participar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

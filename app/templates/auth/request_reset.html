@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Recuperar contraseña{% endblock %}
+
+{% block content %}
+<div style="max-width:420px; margin:3rem auto;">
+  <div class="card">
+    <h2 class="card-title">🔑 Recuperar contraseña</h2>
+    <p class="card-subtitle">Escribe tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+    {% if message %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="field-group">
+        <label class="field-label" for="email">Correo electrónico</label>
+        <input type="email" name="email" id="email" placeholder="tu@correo.com" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">
+        Enviar enlace →
+      </button>
+    </form>
+    <p style="text-align:center; margin-top:1rem; font-size:.82rem;">
+      <a href="{{ url_for('auth.login') }}" style="color:var(--azul-medio);">← Volver al login</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

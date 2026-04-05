@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Panel de investigación{% endblock %}
+
+{% block extra_styles %}
+<style>
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .stat-card {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 1.3rem 1.5rem;
+    border-left: 4px solid var(--azul-medio);
+  }
+  .stat-card.acento  { border-left-color: var(--acento); }
+  .stat-card.verde   { border-left-color: #1a7a4a; }
+  .stat-card.gris    { border-left-color: var(--gris-medio); }
+  .stat-number { font-size: 2.2rem; font-weight: 700; color: var(--azul); line-height: 1; }
+  .stat-label  { font-size: .78rem; color: var(--gris-medio); margin-top: .3rem; }
+
+  .admin-nav {
+    display: flex; gap: .8rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;
+  }
+  .admin-nav a { font-size: .85rem; }
+
+  .bar-row {
+    display: flex; align-items: center; gap: .8rem;
+    margin-bottom: .6rem; font-size: .83rem;
+  }
+  .bar-label { width: 160px; flex-shrink: 0; color: var(--texto); text-align: right; }
+  .bar-track {
+    flex: 1; background: var(--gris-suave); border-radius: 99px; height: 18px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--azul-medio), #4a9fd4);
+    transition: width .4s ease;
+  }
+  .bar-pct { width: 42px; text-align: right; color: var(--gris-medio); font-size: .78rem; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 650px) { .two-col { grid-template-columns: 1fr; } }
+
+  .genero-pill {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: #f0f5fc; border-radius: 99px;
+    padding: .35rem .9rem; font-size: .82rem; margin: .2rem;
+    border: 1.5px solid var(--gris-suave);
+  }
+  .genero-n { font-weight: 700; color: var(--azul); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-nav">
+  <strong style="font-size:1rem; color:var(--azul);">📊 Dashboard</strong>
+
+  {% if current_user and current_user.role == 'admin' %}
+    <a href="{{ url_for('users.show') }}"
+       class="btn btn-outline" style="padding:.45rem 1.1rem;">
+      👥 Usuarios
+    </a>
+  {% endif %}
+
+  {% if current_user %}
+    <a href="{{ url_for('admin.respuestas') }}"
+      class="btn btn-outline" style="padding:.45rem 1.1rem;">
+      Ver respuestas
+    </a>
+    <a href="{{ url_for('admin.exportar_csv') }}"
+      class="btn btn-acento" style="padding:.45rem 1.1rem;">
+      ⬇ Exportar CSV
+    </a>
+  {% endif %}
+
+  <div style="margin-left:auto; display:flex; align-items:center; gap:.8rem;">
+    {% if current_user %}
+      <span style="font-size:.82rem; color:var(--gris-medio);">
+        {{ current_user.fullname }}
+        <span style="background:#f0f5fc; border-radius:99px;
+                     padding:.15rem .6rem; font-size:.72rem;
+                     color:var(--azul-medio); margin-left:.3rem;">
+          {{ current_user.role }}
+        </span>
+      </span>
+    {% endif %}
+    <a href="{{ url_for('auth.logout') }}"
+       style="font-size:.82rem; color:var(--gris-medio);">
+      Cerrar sesión
+    </a>
+  </div>
+</div>
+
+{# ── Métricas generales ── #}
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-number">{{ total_consentimientos }}</div>
+    <div class="stat-label">Consentimientos registrados</div>
+  </div>
+  <div class="stat-card verde">
+    <div class="stat-number">{{ total_completos }}</div>
+    <div class="stat-label">Encuestas completadas</div>
+  </div>
+  <div class="stat-card gris">
+    <div class="stat-number">{{ total_incompletos }}</div>
+    <div class="stat-label">Iniciadas sin completar</div>
+  </div>
+  <div class="stat-card acento">
+    {% set tasa = ((total_completos / total_consentimientos * 100)|round(1)) if total_consentimientos > 0 else 0 %}
+    <div class="stat-number">{{ tasa }}%</div>
+    <div class="stat-label">Tasa de completitud</div>
+  </div>
+</div>
+
+<div class="two-col">
+
+  {# ── Distribución por género ── #}
+  <div class="card">
+    <h3 class="card-title" style="font-size:1rem; margin-bottom:1rem;">👤 Género</h3>
+    {% if generos %}
+      {% for genero, n in generos %}
+      <span class="genero-pill">
+        <span class="genero-n">{{ n }}</span>
+        {{ genero | replace("_", " ") | title }}
+      </span>
+      {% endfor %}
+    {% else %}
+      <p style="color:var(--gris-medio); font-size:.85rem;">Sin datos aún.</p>
+    {% endif %}
+  </div>
+
+  {# ── Top departamentos ── #}
+  <div class="card">
+    <h3 class="card-title" style="font-size:1rem; margin-bottom:1rem;">📍 Top departamentos</h3>
+    {% if departamentos %}
+      {% set max_n = departamentos[0][1] %}
+      {% for dep, n in departamentos %}
+      <div class="bar-row">
+        <span class="bar-label">{{ dep or "Sin dato" }}</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: {{ (n / max_n * 100)|round }}%;"></div>
+        </div>
+        <span class="bar-pct">{{ n }}</span>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="color:var(--gris-medio); font-size:.85rem;">Sin datos aún.</p>
+    {% endif %}
+  </div>
+
+</div>
+
+{# ── Consecuencias más reportadas ── #}
+<div class="card">
+  <h3 class="card-title" style="font-size:1rem; margin-bottom:1rem;">⚠️ Experiencias reportadas (% sobre completos)</h3>
+  {% if consecuencias_stats %}
+    {% for etiqueta, pct in consecuencias_stats.items() | sort(attribute=1, reverse=True) %}
+    <div class="bar-row">
+      <span class="bar-label">{{ etiqueta | title }}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width: {{ pct }}%; background: linear-gradient(90deg,#c0392b,#e67e22);"></div>
+      </div>
+      <span class="bar-pct">{{ pct }}%</span>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p style="color:var(--gris-medio); font-size:.85rem;">Sin datos suficientes aún.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

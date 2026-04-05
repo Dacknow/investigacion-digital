@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Nueva contraseña{% endblock %}
+
+{% block content %}
+<div style="max-width:420px; margin:3rem auto;">
+  <div class="card">
+    <h2 class="card-title">🔒 Nueva contraseña</h2>
+    <p class="card-subtitle">Elige una contraseña segura de al menos 8 caracteres.</p>
+
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="field-group">
+        <label class="field-label" for="password">Nueva contraseña</label>
+        <input type="password" name="password" id="password"
+               placeholder="••••••••" minlength="8" required>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="password_confirm">Confirmar contraseña</label>
+        <input type="password" name="password_confirm" id="password_confirm"
+               placeholder="••••••••" minlength="8" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">
+        Guardar contraseña →
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

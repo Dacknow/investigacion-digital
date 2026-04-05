@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Respuestas · Panel de investigación{% endblock %}
+
+{% block extra_styles %}
+<style>
+  .admin-nav {
+    display: flex; gap: .8rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;
+  }
+  .resp-table {
+    width: 100%; border-collapse: collapse; font-size: .82rem;
+  }
+  .resp-table th {
+    background: var(--azul); color: var(--blanco);
+    padding: .65rem .9rem; text-align: left; font-weight: 500; font-size: .78rem;
+    white-space: nowrap;
+  }
+  .resp-table th:first-child { border-radius: 6px 0 0 0; }
+  .resp-table th:last-child  { border-radius: 0 6px 0 0; }
+  .resp-table td {
+    padding: .6rem .9rem;
+    border-bottom: 1px solid var(--gris-suave);
+    color: var(--texto);
+    vertical-align: middle;
+  }
+  .resp-table tr:last-child td { border-bottom: none; }
+  .resp-table tr:hover td { background: #f4f8ff; }
+
+  .badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 99px;
+    font-size: .72rem; font-weight: 600;
+  }
+  .badge-verde { background: #d4edda; color: #155724; }
+  .badge-gris  { background: #e2e8f0; color: #4a5568; }
+
+  .pagination { display: flex; gap: .4rem; margin-top: 1rem; flex-wrap: wrap; }
+  .pagination a, .pagination span {
+    padding: .4rem .8rem; border-radius: 6px; font-size: .82rem;
+    border: 1.5px solid var(--gris-suave); text-decoration: none; color: var(--azul-medio);
+  }
+  .pagination .current { background: var(--azul); color: var(--blanco); border-color: var(--azul); }
+  .pagination a:hover { background: #f0f5fc; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-nav">
+  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline" style="padding:.45rem 1.1rem;">
+    ← Dashboard
+  </a>
+  <strong style="font-size:1rem; color:var(--azul);">📋 Respuestas completas</strong>
+  <a href="{{ url_for('admin.exportar_csv') }}" class="btn btn-acento" style="padding:.45rem 1.1rem; margin-left:auto;">
+    ⬇ Exportar CSV
+  </a>
+</div>
+
+<div class="card" style="padding:0; overflow:hidden;">
+  {% if participantes.items %}
+  <div style="overflow-x:auto;">
+    <table class="resp-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Edad</th>
+          <th>Género</th>
+          <th>Ciudad</th>
+          <th>Departamento</th>
+          <th>Educación</th>
+          <th>Ocupación</th>
+          <th>Internet/día</th>
+          <th>Preoc. privacidad</th>
+          <th>Exp. negativas</th>
+          <th>Impacto emocional</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in participantes.items %}
+        <tr>
+          <td style="color:var(--gris-medio);">{{ p.id }}</td>
+          <td style="white-space:nowrap;">
+            {{ p.fecha_respuesta.strftime('%d/%m/%Y') if p.fecha_respuesta else '—' }}
+          </td>
+          <td>{{ p.edad }}</td>
+          <td>{{ p.genero | replace('_', ' ') | title }}</td>
+          <td>{{ p.ciudad }}</td>
+          <td>{{ p.departamento }}</td>
+          <td style="white-space:nowrap;">{{ p.nivel_educativo | replace('_', ' ') | title }}</td>
+          <td>{{ p.ocupacion | title }}</td>
+          <td>
+            {% if p.habitos %}
+              {{ p.habitos.horas_diarias_internet | replace('_', ' ') }}
+            {% else %}—{% endif %}
+          </td>
+          <td style="text-align:center;">
+            {% if p.habitos %}
+              <strong>{{ p.habitos.nivel_preocupacion_privacidad }}/5</strong>
+            {% else %}—{% endif %}
+          </td>
+          <td>
+            {% if p.consecuencias %}
+              {% set exps = [] %}
+              {% if p.consecuencias.experimento_suplantacion %}{% set _ = exps.append('Suplantación') %}{% endif %}
+              {% if p.consecuencias.experimento_ciberacoso %}{% set _ = exps.append('Ciberacoso') %}{% endif %}
+              {% if p.consecuencias.experimento_fraude_financiero %}{% set _ = exps.append('Fraude') %}{% endif %}
+              {% if p.consecuencias.experimento_robo_cuenta %}{% set _ = exps.append('Robo cuenta') %}{% endif %}
+              {% if p.consecuencias.ninguna_experiencia_negativa %}
+                <span class="badge badge-verde">Ninguna</span>
+              {% elif exps %}
+                <span style="font-size:.75rem; color:var(--rojo);">{{ exps | join(', ') }}</span>
+              {% else %}—{% endif %}
+            {% else %}—{% endif %}
+          </td>
+          <td>
+            {% if p.consecuencias %}
+              {% set imp = p.consecuencias.impacto_emocional %}
+              {% if imp == 'ninguno' %}<span class="badge badge-verde">Ninguno</span>
+              {% elif imp == 'leve' %}<span class="badge" style="background:#fff3cd;color:#856404;">Leve</span>
+              {% elif imp == 'moderado' %}<span class="badge" style="background:#fde8d8;color:#7a3f00;">Moderado</span>
+              {% elif imp == 'severo' %}<span class="badge" style="background:#fdecea;color:var(--rojo);">Severo</span>
+              {% endif %}
+            {% else %}—{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {# Paginación #}
+  {% if participantes.pages > 1 %}
+  <div style="padding:1rem 1.5rem; border-top:1px solid var(--gris-suave);">
+    <div class="pagination">
+      {% if participantes.has_prev %}
+        <a href="{{ url_for('admin.respuestas', pagina=participantes.prev_num) }}">‹ Anterior</a>
+      {% endif %}
+      {% for p in participantes.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+        {% if p %}
+          {% if p == participantes.page %}
+            <span class="current">{{ p }}</span>
+          {% else %}
+            <a href="{{ url_for('admin.respuestas', pagina=p) }}">{{ p }}</a>
+          {% endif %}
+        {% else %}
+          <span style="border:none; color:var(--gris-medio);">…</span>
+        {% endif %}
+      {% endfor %}
+      {% if participantes.has_next %}
+        <a href="{{ url_for('admin.respuestas', pagina=participantes.next_num) }}">Siguiente ›</a>
+      {% endif %}
+    </div>
+    <p style="font-size:.78rem; color:var(--gris-medio); margin-top:.5rem;">
+      Mostrando {{ participantes.items | length }} de {{ participantes.total }} registros completos.
+    </p>
+  </div>
+  {% endif %}
+
+  {% else %}
+  <div style="padding:3rem; text-align:center; color:var(--gris-medio);">
+    <div style="font-size:2.5rem; margin-bottom:.8rem;">📭</div>
+    <p>Aún no hay encuestas completadas.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

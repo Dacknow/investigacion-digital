@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Hábitos digitales · Paso 2 de 3{% endblock %}
+
+{% block content %}
+<p class="progress-label">Paso {{ paso }} de {{ total_pasos }} — Hábitos digitales</p>
+<div class="progress-bar-wrapper">
+  <div class="progress-bar-fill" style="width: {{ (paso / total_pasos * 100)|round }}%;"></div>
+</div>
+
+<div class="card">
+  <h2 class="card-title">📱 Uso de plataformas digitales</h2>
+  <p class="card-subtitle">
+    Queremos entender qué plataformas usas, qué tipo de información compartes
+    y qué tanto conoces sobre la protección de tus datos.
+  </p>
+
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    {# Horas diarias #}
+    <div class="field-group">
+      <span class="field-label">{{ form.horas_diarias_internet.label.text }}</span>
+      <div class="options-grid">
+        {% for sf in form.horas_diarias_internet %}
+        <label class="option-card">{{ sf() }} {{ sf.label.text }}</label>
+        {% endfor %}
+      </div>
+      {% if form.horas_diarias_internet.errors %}
+        <p class="field-error">⚠ {{ form.horas_diarias_internet.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    {# Redes sociales #}
+    <div class="field-group">
+      <span class="field-label">{{ form.redes_sociales.label.text }}</span>
+      <div class="checklist" style="grid-template-columns: repeat(auto-fill, minmax(180px,1fr));">
+        {% for sf in form.redes_sociales %}
+        <label>{{ sf() }} {{ sf.label.text }}</label>
+        {% endfor %}
+      </div>
+    </div>
+
+    {# Plataformas donde comparte datos #}
+    <div class="field-group">
+      <span class="field-label">¿En qué tipos de plataformas tienes cuenta o usas servicios?</span>
+      <div class="checklist">
+        <label>{{ form.usa_banca_digital() }} {{ form.usa_banca_digital.label.text }}</label>
+        <label>{{ form.usa_comercio_electronico() }} {{ form.usa_comercio_electronico.label.text }}</label>
+        <label>{{ form.usa_apps_salud() }} {{ form.usa_apps_salud.label.text }}</label>
+        <label>{{ form.usa_apps_transporte() }} {{ form.usa_apps_transporte.label.text }}</label>
+        <label>{{ form.usa_servicios_gobierno() }} {{ form.usa_servicios_gobierno.label.text }}</label>
+      </div>
+    </div>
+
+    {# Tipos de datos que comparte #}
+    <div class="field-group">
+      <span class="field-label">¿Qué tipo de información personal has compartido en plataformas digitales?</span>
+      <div class="checklist">
+        <label>{{ form.comparte_nombre_real() }} {{ form.comparte_nombre_real.label.text }}</label>
+        <label>{{ form.comparte_foto_perfil() }} {{ form.comparte_foto_perfil.label.text }}</label>
+        <label>{{ form.comparte_ubicacion() }} {{ form.comparte_ubicacion.label.text }}</label>
+        <label>{{ form.comparte_telefono() }} {{ form.comparte_telefono.label.text }}</label>
+        <label>{{ form.comparte_datos_financieros() }} {{ form.comparte_datos_financieros.label.text }}</label>
+        <label>{{ form.comparte_informacion_laboral() }} {{ form.comparte_informacion_laboral.label.text }}</label>
+      </div>
+    </div>
+
+    {# Términos y condiciones #}
+    <div class="field-group">
+      <span class="field-label">{{ form.lee_terminos_condiciones.label.text }}</span>
+      <div class="options-grid">
+        {% for sf in form.lee_terminos_condiciones %}
+        <label class="option-card">{{ sf() }} {{ sf.label.text }}</label>
+        {% endfor %}
+      </div>
+      {% if form.lee_terminos_condiciones.errors %}
+        <p class="field-error">⚠ {{ form.lee_terminos_condiciones.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    {# Conoce la ley #}
+    <div class="field-group">
+      <span class="field-label">{{ form.conoce_ley_datos_colombia.label.text }}</span>
+      <div class="options-grid" style="max-width:400px;">
+        {% for sf in form.conoce_ley_datos_colombia %}
+        <label class="option-card">{{ sf() }} {{ sf.label.text }}</label>
+        {% endfor %}
+      </div>
+      {% if form.conoce_ley_datos_colombia.errors %}
+        <p class="field-error">⚠ {{ form.conoce_ley_datos_colombia.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    {# Preocupación por privacidad — Likert #}
+    <div class="field-group">
+      <span class="field-label">{{ form.nivel_preocupacion_privacidad.label.text }}</span>
+      <div class="likert-scale">
+        {% for sf in form.nivel_preocupacion_privacidad %}
+        <label>{{ sf() }}<span>{{ sf.label.text }}</span></label>
+        {% endfor %}
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--gris-medio);margin-top:.3rem;max-width:320px;">
+        <span>Nada preocupado</span><span>Muy preocupado</span>
+      </div>
+      {% if form.nivel_preocupacion_privacidad.errors %}
+        <p class="field-error">⚠ {{ form.nivel_preocupacion_privacidad.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    {# Cambió configuración de privacidad #}
+    <div class="field-group">
+      <span class="field-label">{{ form.ha_cambiado_config_privacidad.label.text }}</span>
+      <div class="options-grid" style="max-width:400px;">
+        {% for sf in form.ha_cambiado_config_privacidad %}
+        <label class="option-card">{{ sf() }} {{ sf.label.text }}</label>
+        {% endfor %}
+      </div>
+      {% if form.ha_cambiado_config_privacidad.errors %}
+        <p class="field-error">⚠ {{ form.ha_cambiado_config_privacidad.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+</div>
+{% endblock %}
