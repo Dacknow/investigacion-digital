@@ -17,9 +17,15 @@ def create_app():
     app = Flask(__name__)
 
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-key-insegura")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-        "DATABASE_URL", "postgresql+psycopg://postgres:password@localhost:5432/investigacion_digital"
-    )
+
+    # Railway genera 'postgresql://' pero SQLAlchemy necesita 'postgresql+psycopg2://'
+    database_url = os.getenv("DATABASE_URL", "")
+    if database_url.startswith("postgresql://"):
+        database_url = database_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url or \
+        "postgresql+psycopg2://postgres:password@localhost:5432/investigacion_digital"
+    
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["WTF_CSRF_ENABLED"] = True
     app.config["INVESTIGACION"] = {
