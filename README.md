@@ -267,18 +267,6 @@ with app.app_context():
 "
 ```
 
-### Actualizar el proyecto
-
-```bash
-git add .
-git commit -m "descripción del cambio"
-git push
-```
-
-Railway redespliega automáticamente en 1-2 minutos.
-
----
-
 ## Cumplimiento legal
 
 - **Ley 1581 de 2012** — Protección de datos personales (Colombia)
