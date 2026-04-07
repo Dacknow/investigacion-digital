@@ -1,15 +1,15 @@
-# <i class="fas fa-lock"></i> Investigación Digital 2026
+# Investigación Digital 2026
 
 > **Influencia de la información de datos personales compartida en internet**
 > **sobre la vida de adultos jóvenes en Colombia durante el año 2026**
 
 Sistema web académico para recolección de datos mediante formularios con consentimiento informado y cookies autorizadas, en cumplimiento de la **Ley 1581 de 2012** (Habeas Data).
 
-<i class="fas fa-globe"></i> **Producción:** https://investigacion-digital-production.up.railway.app
+ **Producción:** https://investigacion-digital-production.up.railway.app
 
 ---
 
-## <i class="fas fa-folder"></i> Estructura del proyecto
+## Estructura del proyecto
 
 ```
 investigacion_digital/
@@ -67,7 +67,7 @@ investigacion_digital/
 
 ---
 
-## <i class="fas fa-bolt"></i> Instalación local
+## Instalación local
 
 ### Requisitos
 
@@ -146,7 +146,7 @@ Abre: **http://localhost:5000**
 
 ---
 
-## <i class="fas fa-map"></i> URLs del sistema
+## URLs del sistema
 
 ### Públicas (encuesta)
 
@@ -171,7 +171,7 @@ Abre: **http://localhost:5000**
 
 ---
 
-## <i class="fas fa-database"></i> Modelo de datos
+## Modelo de datos
 
 ### Tablas de la encuesta
 
@@ -197,16 +197,16 @@ Abre: **http://localhost:5000**
 
 ---
 
-## <i class="fas fa-users"></i> Roles del sistema
+## Roles del sistema
 
 | Rol      | Dashboard | Respuestas | Exportar | Usuarios |
 | -------- | --------- | ---------- | -------- | -------- |
-| `admin`  | ✅        | ✅         | ✅       | ✅       |
-| `viewer` | ✅        | ✅         | ✅       | ❌       |
+| `admin`  | si        | si         | si       | si       |
+| `viewer` | si        | si         | si       | no       |
 
 ---
 
-## <i class="fas fa-chart-bar"></i> Exportación de datos
+## Exportación de datos
 
 ### CSV (desde el panel)
 
@@ -228,7 +228,7 @@ Genera un `.xlsx` con 3 hojas:
 
 ---
 
-## <i class="fas fa-rocket"></i> Despliegue en Railway
+## Despliegue en Railway
 
 ### Variables de entorno requeridas en Railway
 
@@ -279,7 +279,7 @@ Railway redespliega automáticamente en 1-2 minutos.
 
 ---
 
-## <i class="fas fa-balance-scale"></i> Cumplimiento legal
+## Cumplimiento legal
 
 - **Ley 1581 de 2012** — Protección de datos personales (Colombia)
 - **Decreto 1377 de 2013** — Reglamentación del habeas data
@@ -291,7 +291,7 @@ Railway redespliega automáticamente en 1-2 minutos.
 
 ---
 
-## <i class="fas fa-tools"></i> Tecnologías
+## Tecnologías
 
 | Componente          | Tecnología                             |
 | ------------------- | -------------------------------------- |
