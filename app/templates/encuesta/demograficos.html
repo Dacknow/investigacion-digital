@@ -1,26 +1,32 @@
-{% extends "base.html" %}
-{% block title %}Datos demográficos · Paso 1 de 3{% endblock %}
-
-{% block content %}
-<p class="progress-label">Paso {{ paso }} de {{ total_pasos }} — Datos demográficos</p>
+{% extends "base.html" %} {% block title %}Datos demográficos · Paso 1 de 3{%
+endblock %} {% block content %}
+<p class="progress-label">
+  Paso {{ paso }} de {{ total_pasos }} — Datos demográficos
+</p>
 <div class="progress-bar-wrapper">
-  <div class="progress-bar-fill" style="width: {{ (paso / total_pasos * 100)|round }}%;"></div>
+  <div
+    class="progress-bar-fill"
+    style="width: {{ (paso / total_pasos * 100)|round }}%;"
+  ></div>
 </div>
 
 <div class="card">
-  <h2 class="card-title">👤 Información demográfica</h2>
-  <p class="card-subtitle">Estos datos nos ayudan a caracterizar la población del estudio.
-  No se solicita nombre ni información que te identifique directamente.</p>
+  <h2 class="card-title">
+    <i class="fas fa-user"></i> Información demográfica
+  </h2>
+  <p class="card-subtitle">
+    Estos datos nos ayudan a caracterizar la población del estudio. No se
+    solicita nombre ni información que te identifique directamente.
+  </p>
 
   <form method="POST" novalidate>
-    {{ form.hidden_tag() }}
-
-    {# Edad #}
+    {{ form.hidden_tag() }} {# Edad #}
     <div class="field-group">
-      {{ form.edad.label(class="field-label") }}
-      {{ form.edad(placeholder="Ej: 24", style="max-width:120px;") }}
-      {% if form.edad.errors %}
-        <p class="field-error">⚠ {{ form.edad.errors[0] }}</p>
+      {{ form.edad.label(class="field-label") }} {{ form.edad(placeholder="Ej:
+      24", style="max-width:120px;") }} {% if form.edad.errors %}
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{ form.edad.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
@@ -35,25 +41,30 @@
         {% endfor %}
       </div>
       {% if form.genero.errors %}
-        <p class="field-error">⚠ {{ form.genero.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{ form.genero.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
     {# Ciudad #}
     <div class="field-group">
-      {{ form.ciudad.label(class="field-label") }}
-      {{ form.ciudad(placeholder="Ej: Medellín") }}
-      {% if form.ciudad.errors %}
-        <p class="field-error">⚠ {{ form.ciudad.errors[0] }}</p>
+      {{ form.ciudad.label(class="field-label") }} {{
+      form.ciudad(placeholder="Ej: Medellín") }} {% if form.ciudad.errors %}
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{ form.ciudad.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
     {# Departamento #}
     <div class="field-group">
-      {{ form.departamento.label(class="field-label") }}
-      {{ form.departamento() }}
-      {% if form.departamento.errors %}
-        <p class="field-error">⚠ {{ form.departamento.errors[0] }}</p>
+      {{ form.departamento.label(class="field-label") }} {{ form.departamento()
+      }} {% if form.departamento.errors %}
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{ form.departamento.errors[0]
+        }}
+      </p>
       {% endif %}
     </div>
 
@@ -62,11 +73,16 @@
       <span class="field-label">{{ form.nivel_educativo.label.text }}</span>
       <div class="options-grid">
         {% for subfield in form.nivel_educativo %}
-        <label class="option-card">{{ subfield() }} {{ subfield.label.text }}</label>
+        <label class="option-card"
+          >{{ subfield() }} {{ subfield.label.text }}</label
+        >
         {% endfor %}
       </div>
       {% if form.nivel_educativo.errors %}
-        <p class="field-error">⚠ {{ form.nivel_educativo.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{
+        form.nivel_educativo.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
@@ -75,15 +91,19 @@
       <span class="field-label">{{ form.ocupacion.label.text }}</span>
       <div class="options-grid">
         {% for subfield in form.ocupacion %}
-        <label class="option-card">{{ subfield() }} {{ subfield.label.text }}</label>
+        <label class="option-card"
+          >{{ subfield() }} {{ subfield.label.text }}</label
+        >
         {% endfor %}
       </div>
       {% if form.ocupacion.errors %}
-        <p class="field-error">⚠ {{ form.ocupacion.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{ form.ocupacion.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
-    <div style="margin-top:1.5rem;">
+    <div style="margin-top: 1.5rem">
       {{ form.submit(class="btn btn-primary") }}
     </div>
   </form>

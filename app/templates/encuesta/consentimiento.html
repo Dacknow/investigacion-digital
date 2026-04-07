@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="card">
-  <h2 class="card-title">📋 Consentimiento informado y política de cookies</h2>
+  <h2 class="card-title"><i class="fas fa-clipboard-list"></i> Consentimiento informado y política de cookies</h2>
   <p class="card-subtitle">
     Antes de iniciar, lee detenidamente la siguiente información. Tu participación es voluntaria y puedes
     retirarte en cualquier momento sin consecuencias.
@@ -35,7 +35,7 @@
       </span>
     </label>
     {% if form.acepto_tratamiento_datos.errors %}
-      <p class="field-error">⚠ {{ form.acepto_tratamiento_datos.errors[0] }}</p>
+      <p class="field-error"><i class="fas fa-exclamation-circle"></i> {{ form.acepto_tratamiento_datos.errors[0] }}</p>
     {% endif %}
 
     <p style="font-size:.83rem; font-weight:600; color:#1a3a5c; margin-top:1.4rem; margin-bottom:.8rem; text-transform:uppercase; letter-spacing:.05em;">

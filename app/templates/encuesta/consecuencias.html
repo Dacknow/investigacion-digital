@@ -1,36 +1,74 @@
-{% extends "base.html" %}
-{% block title %}Consecuencias vividas · Paso 3 de 3{% endblock %}
-
-{% block content %}
-<p class="progress-label">Paso {{ paso }} de {{ total_pasos }} — Consecuencias e impacto</p>
+{% extends "base.html" %} {% block title %}Consecuencias vividas · Paso 3 de 3{%
+endblock %} {% block content %}
+<p class="progress-label">
+  Paso {{ paso }} de {{ total_pasos }} — Consecuencias e impacto
+</p>
 <div class="progress-bar-wrapper">
-  <div class="progress-bar-fill" style="width: {{ (paso / total_pasos * 100)|round }}%;"></div>
+  <div
+    class="progress-bar-fill"
+    style="width: {{ (paso / total_pasos * 100)|round }}%;"
+  ></div>
 </div>
 
 <div class="card">
-  <h2 class="card-title">⚠️ Experiencias e impacto personal</h2>
+  <h2 class="card-title">
+    <i class="fas fa-exclamation-triangle"></i> Experiencias e impacto personal
+  </h2>
   <p class="card-subtitle">
-    Esta sección indaga sobre experiencias negativas relacionadas con tus datos en internet
-    y su impacto en diferentes áreas de tu vida. No es obligatorio haber vivido alguna de estas situaciones.
+    Esta sección indaga sobre experiencias negativas relacionadas con tus datos
+    en internet y su impacto en diferentes áreas de tu vida. No es obligatorio
+    haber vivido alguna de estas situaciones.
   </p>
 
   <form method="POST" novalidate>
-    {{ form.hidden_tag() }}
-
-    {# Experiencias de riesgo #}
+    {{ form.hidden_tag() }} {# Experiencias de riesgo #}
     <div class="field-group">
-      <span class="field-label">¿Cuáles de las siguientes situaciones has experimentado alguna vez?
-        <span style="font-weight:400;">(Selecciona todas las que apliquen)</span>
+      <span class="field-label"
+        >¿Cuáles de las siguientes situaciones has experimentado alguna vez?
+        <span style="font-weight: 400"
+          >(Selecciona todas las que apliquen)</span
+        >
       </span>
-      <div class="checklist" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:.6rem; margin-top:.5rem;">
-        <label>{{ form.experimento_suplantacion() }} {{ form.experimento_suplantacion.label.text }}</label>
-        <label>{{ form.experimento_ciberacoso() }} {{ form.experimento_ciberacoso.label.text }}</label>
-        <label>{{ form.experimento_fraude_financiero() }} {{ form.experimento_fraude_financiero.label.text }}</label>
-        <label>{{ form.experimento_perdida_privacidad() }} {{ form.experimento_perdida_privacidad.label.text }}</label>
-        <label>{{ form.experimento_robo_cuenta() }} {{ form.experimento_robo_cuenta.label.text }}</label>
-        <label>{{ form.experimento_spam_publicidad() }} {{ form.experimento_spam_publicidad.label.text }}</label>
-        <label>{{ form.experimento_discriminacion_laboral() }} {{ form.experimento_discriminacion_laboral.label.text }}</label>
-        <label style="color:#1a7a4a; font-weight:500;">{{ form.ninguna_experiencia_negativa() }} {{ form.ninguna_experiencia_negativa.label.text }}</label>
+      <div
+        class="checklist"
+        style="
+          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 0.6rem;
+          margin-top: 0.5rem;
+        "
+      >
+        <label
+          >{{ form.experimento_suplantacion() }} {{
+          form.experimento_suplantacion.label.text }}</label
+        >
+        <label
+          >{{ form.experimento_ciberacoso() }} {{
+          form.experimento_ciberacoso.label.text }}</label
+        >
+        <label
+          >{{ form.experimento_fraude_financiero() }} {{
+          form.experimento_fraude_financiero.label.text }}</label
+        >
+        <label
+          >{{ form.experimento_perdida_privacidad() }} {{
+          form.experimento_perdida_privacidad.label.text }}</label
+        >
+        <label
+          >{{ form.experimento_robo_cuenta() }} {{
+          form.experimento_robo_cuenta.label.text }}</label
+        >
+        <label
+          >{{ form.experimento_spam_publicidad() }} {{
+          form.experimento_spam_publicidad.label.text }}</label
+        >
+        <label
+          >{{ form.experimento_discriminacion_laboral() }} {{
+          form.experimento_discriminacion_laboral.label.text }}</label
+        >
+        <label style="color: #1a7a4a; font-weight: 500"
+          >{{ form.ninguna_experiencia_negativa() }} {{
+          form.ninguna_experiencia_negativa.label.text }}</label
+        >
       </div>
     </div>
 
@@ -43,79 +81,126 @@
         {% endfor %}
       </div>
       {% if form.impacto_emocional.errors %}
-        <p class="field-error">⚠ {{ form.impacto_emocional.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{
+        form.impacto_emocional.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
     {# Cambio de comportamiento #}
     <div class="field-group">
-      <span class="field-label">{{ form.cambio_comportamiento_digital.label.text }}</span>
-      <div class="options-grid" style="max-width:440px;">
+      <span class="field-label"
+        >{{ form.cambio_comportamiento_digital.label.text }}</span
+      >
+      <div class="options-grid" style="max-width: 440px">
         {% for sf in form.cambio_comportamiento_digital %}
         <label class="option-card">{{ sf() }} {{ sf.label.text }}</label>
         {% endfor %}
       </div>
       {% if form.cambio_comportamiento_digital.errors %}
-        <p class="field-error">⚠ {{ form.cambio_comportamiento_digital.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{
+        form.cambio_comportamiento_digital.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
     {# Descripción del cambio (abierto) #}
     <div class="field-group">
-      {{ form.descripcion_cambio.label(class="field-label") }}
-      {{ form.descripcion_cambio(placeholder="Ej: Dejé de publicar mi ubicación en redes sociales...") }}
+      {{ form.descripcion_cambio.label(class="field-label") }} {{
+      form.descripcion_cambio(placeholder="Ej: Dejé de publicar mi ubicación en
+      redes sociales...") }}
     </div>
 
-    {# Impacto social / laboral / financiero #}
-    {% for field in [form.afecto_relaciones_sociales, form.afecto_oportunidades_laborales, form.afecto_acceso_credito] %}
+    {# Impacto social / laboral / financiero #} {% for field in
+    [form.afecto_relaciones_sociales, form.afecto_oportunidades_laborales,
+    form.afecto_acceso_credito] %}
     <div class="field-group">
       <span class="field-label">{{ field.label.text }}</span>
-      <div class="options-grid" style="max-width:300px;">
+      <div class="options-grid" style="max-width: 300px">
         {% for sf in field %}
         <label class="option-card">{{ sf() }} {{ sf.label.text }}</label>
         {% endfor %}
       </div>
       {% if field.errors %}
-        <p class="field-error">⚠ {{ field.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{ field.errors[0] }}
+      </p>
       {% endif %}
     </div>
-    {% endfor %}
-
-    {# Escala de control #}
+    {% endfor %} {# Escala de control #}
     <div class="field-group">
-      <span class="field-label">{{ form.siente_control_datos.label.text }}</span>
+      <span class="field-label"
+        >{{ form.siente_control_datos.label.text }}</span
+      >
       <div class="likert-scale">
         {% for sf in form.siente_control_datos %}
         <label>{{ sf() }}<span>{{ sf.label.text }}</span></label>
         {% endfor %}
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--gris-medio);margin-top:.3rem;max-width:320px;">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.72rem;
+          color: var(--gris-medio);
+          margin-top: 0.3rem;
+          max-width: 320px;
+        "
+      >
         <span>Sin control</span><span>Control total</span>
       </div>
       {% if form.siente_control_datos.errors %}
-        <p class="field-error">⚠ {{ form.siente_control_datos.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{
+        form.siente_control_datos.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
     {# Confianza en plataformas #}
     <div class="field-group">
-      <span class="field-label">{{ form.confianza_plataformas.label.text }}</span>
+      <span class="field-label"
+        >{{ form.confianza_plataformas.label.text }}</span
+      >
       <div class="likert-scale">
         {% for sf in form.confianza_plataformas %}
         <label>{{ sf() }}<span>{{ sf.label.text }}</span></label>
         {% endfor %}
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--gris-medio);margin-top:.3rem;max-width:320px;">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.72rem;
+          color: var(--gris-medio);
+          margin-top: 0.3rem;
+          max-width: 320px;
+        "
+      >
         <span>Ninguna</span><span>Mucha</span>
       </div>
       {% if form.confianza_plataformas.errors %}
-        <p class="field-error">⚠ {{ form.confianza_plataformas.errors[0] }}</p>
+      <p class="field-error">
+        <i class="fas fa-exclamation-circle"></i> {{
+        form.confianza_plataformas.errors[0] }}
+      </p>
       {% endif %}
     </div>
 
-    <div style="margin-top:2rem; border-top: 1px solid var(--gris-suave); padding-top: 1.5rem;">
-      <p style="font-size:.8rem; color:var(--gris-medio); margin-bottom:1rem;">
-        Al enviar este formulario confirmas que tus respuestas son verídicas y que participas voluntariamente.
+    <div
+      style="
+        margin-top: 2rem;
+        border-top: 1px solid var(--gris-suave);
+        padding-top: 1.5rem;
+      "
+    >
+      <p
+        style="font-size: 0.8rem; color: var(--gris-medio); margin-bottom: 1rem"
+      >
+        Al enviar este formulario confirmas que tus respuestas son verídicas y
+        que participas voluntariamente.
       </p>
       {{ form.submit(class="btn btn-acento", style="font-size:1rem;") }}
     </div>

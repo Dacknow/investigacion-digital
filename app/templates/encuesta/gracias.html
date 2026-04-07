@@ -1,20 +1,42 @@
-{% extends "base.html" %}
-{% block title %}¡Gracias por participar!{% endblock %}
-
-{% block content %}
-<div class="card" style="text-align:center; padding:3rem 2.5rem;">
-  <div style="font-size:3.5rem; margin-bottom:1rem;">✅</div>
-  <h2 class="card-title" style="font-size:1.7rem; margin-bottom:.8rem;">
+{% extends "base.html" %} {% block title %}¡Gracias por participar!{% endblock
+%} {% block content %}
+<div class="card" style="text-align: center; padding: 3rem 2.5rem">
+  <div style="font-size: 3.5rem; margin-bottom: 1rem">
+    <i class="fas fa-check-circle" style="color: #1a7a4a"></i>
+  </div>
+  <h2 class="card-title" style="font-size: 1.7rem; margin-bottom: 0.8rem">
     ¡Gracias por tu participación!
   </h2>
-  <p style="font-size:.95rem; color:#4a5a6a; max-width:520px; margin:0 auto 1.5rem; line-height:1.8;">
-    Tu respuesta ha sido registrada exitosamente. Tu aporte contribuye a una investigación
-    académica que busca entender y mejorar la <strong>seguridad digital</strong> en Colombia.
+  <p
+    style="
+      font-size: 0.95rem;
+      color: #4a5a6a;
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.8;
+    "
+  >
+    Tu respuesta ha sido registrada exitosamente. Tu aporte contribuye a una
+    investigación académica que busca entender y mejorar la
+    <strong>seguridad digital</strong> en Colombia.
   </p>
-  <div style="background:#edf7f0; border-radius:8px; padding:1rem 1.5rem; max-width:480px; margin: 0 auto 2rem; font-size:.84rem; color:#1a7a4a; line-height:1.7;">
-    Tus datos han sido guardados de forma anónima y serán tratados confidencialmente
-    conforme a la <strong>Ley 1581 de 2012</strong>.
+  <div
+    style="
+      background: #edf7f0;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      font-size: 0.84rem;
+      color: #1a7a4a;
+      line-height: 1.7;
+    "
+  >
+    Tus datos han sido guardados de forma anónima y serán tratados
+    confidencialmente conforme a la <strong>Ley 1581 de 2012</strong>.
   </div>
-  <a href="{{ url_for('main.index') }}" class="btn btn-outline">Volver al inicio</a>
+  <a href="{{ url_for('main.index') }}" class="btn btn-outline"
+    >Volver al inicio</a
+  >
 </div>
 {% endblock %}

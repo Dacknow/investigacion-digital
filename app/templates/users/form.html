@@ -5,9 +5,13 @@
 <div style="max-width:560px; margin:0 auto;">
   <div class="admin-nav" style="display:flex; gap:.8rem; margin-bottom:1.5rem;">
     <a href="{{ url_for('users.show') }}"
-       class="btn btn-outline" style="padding:.45rem 1.1rem;">← Volver</a>
+       class="btn btn-outline" style="padding:.45rem 1.1rem;"><i class="fas fa-arrow-left"></i> Volver</a>
     <strong style="font-size:1rem; color:var(--azul);">
-      {{ '✏ Editar usuario' if accion == 'edit' else '➕ Nuevo usuario' }}
+      {% if accion == 'edit' %}
+        <i class="fas fa-edit"></i> Editar usuario
+      {% else %}
+        <i class="fas fa-plus"></i> Nuevo usuario
+      {% endif %}
     </strong>
   </div>
 
