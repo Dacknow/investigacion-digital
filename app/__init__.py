@@ -1,6 +1,3 @@
-"""
-Fábrica de la aplicación Flask.
-"""
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -18,7 +15,7 @@ def create_app():
 
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-key-insegura")
 
-    # Railway genera 'postgresql://' pero SQLAlchemy necesita 'postgresql+psycopg2://'
+    
     database_url = os.getenv("DATABASE_URL", "")
     if database_url.startswith("postgresql://"):
         database_url = database_url.replace("postgresql://", "postgresql+psycopg2://", 1)

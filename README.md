@@ -65,87 +65,6 @@ investigacion_digital/
     └── exportar_excel.py             ← Exporta datos a .xlsx
 ```
 
----
-
-## Instalación local
-
-### Requisitos
-
-- Python 3.12+
-- PostgreSQL 14+
-
-### 1. Clonar e instalar dependencias
-
-```bash
-git clone https://github.com/TU_USUARIO/investigacion-digital.git
-cd investigacion-digital
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r requirements.txt
-```
-
-### 2. Configurar el entorno
-
-```bash
-cp .env.example .env
-```
-
-Edita `.env`:
-
-```env
-SECRET_KEY=una-clave-secreta-larga
-DATABASE_URL=postgresql+psycopg2://postgres:TU_CONTRASEÑA@localhost:5432/investigacion_digital
-ADMIN_PASSWORD=tu-contraseña-admin
-
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=tu@gmail.com
-MAIL_PASSWORD=xxxx xxxx xxxx xxxx    # Contraseña de aplicación Gmail
-MAIL_DEFAULT_SENDER=tu@gmail.com
-
-INVESTIGACION_RESPONSABLE=Tu Nombre
-INVESTIGACION_INSTITUCION=Tu Universidad
-INVESTIGACION_CONTACTO=tu@correo.edu.co
-```
-
-### 3. Crear la base de datos
-
-```sql
--- En psql o pgAdmin:
-CREATE DATABASE investigacion_digital;
-```
-
-### 4. Inicializar tablas y crear admin
-
-```bash
-python scripts/init_db.py
-
-python -c "
-from app import create_app, db
-from app.models.user_model import UserModel
-app = create_app()
-with app.app_context():
-    UserModel.create_user(
-        username='admin',
-        fullname='Tu Nombre',
-        email='tu@correo.com',
-        password='tu-contraseña',
-        role='admin'
-    )
-    print('Admin creado.')
-"
-```
-
-### 5. Levantar el servidor
-
-```bash
-python run.py
-```
-
-Abre: **http://localhost:5000**
-
----
-
 ## URLs del sistema
 
 ### Públicas (encuesta)
@@ -214,12 +133,6 @@ Disponible en `/admin/exportar/csv` — descarga inmediata con todas las respues
 
 ### Excel (script local)
 
-```bash
-python scripts/exportar_excel.py
-# Con nombre personalizado:
-python scripts/exportar_excel.py --output resultados_junio_2026.xlsx
-```
-
 Genera un `.xlsx` con 3 hojas:
 
 - **Resumen** — métricas clave para el investigador
@@ -227,45 +140,6 @@ Genera un `.xlsx` con 3 hojas:
 - **Frecuencias** — tablas de distribución por variable
 
 ---
-
-## Despliegue en Railway
-
-### Variables de entorno requeridas en Railway
-
-| Variable                    | Descripción                                     |
-| --------------------------- | ----------------------------------------------- |
-| `SECRET_KEY`                | Clave secreta de Flask                          |
-| `DATABASE_URL`              | Generada automáticamente por Railway PostgreSQL |
-| `MAIL_USERNAME`             | Correo Gmail                                    |
-| `MAIL_PASSWORD`             | Contraseña de aplicación Gmail (16 caracteres)  |
-| `MAIL_DEFAULT_SENDER`       | Mismo correo Gmail                              |
-| `INVESTIGACION_RESPONSABLE` | Nombre del investigador                         |
-| `INVESTIGACION_INSTITUCION` | Nombre de la institución                        |
-| `INVESTIGACION_CONTACTO`    | Correo de contacto                              |
-
-### Inicializar en producción (Railway Shell)
-
-```bash
-# Crear tablas
-python scripts/init_db.py
-
-# Crear usuario admin
-python -c "
-from app import create_app, db
-from app.models.user_model import UserModel
-app = create_app()
-with app.app_context():
-    db.create_all()
-    UserModel.create_user(
-        username='admin',
-        fullname='Tu Nombre',
-        email='tu@correo.com',
-        password='tu-contraseña-segura',
-        role='admin'
-    )
-    print('Admin creado.')
-"
-```
 
 ## Cumplimiento legal
 

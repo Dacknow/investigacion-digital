@@ -1,11 +1,3 @@
-"""
-Script de exportación a Excel (.xlsx) para el equipo investigador.
-Genera un archivo con múltiples hojas: resumen, datos crudos, frecuencias.
-
-Uso:
-    python scripts/exportar_excel.py
-    python scripts/exportar_excel.py --output resultados_mayo.xlsx
-"""
 import sys
 import os
 import argparse
@@ -22,7 +14,7 @@ try:
     from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
     from openpyxl.utils import get_column_letter
 except ImportError:
-    print("❌ Instala openpyxl: pip install openpyxl")
+    print("Instala openpyxl: pip install openpyxl")
     sys.exit(1)
 
 
@@ -285,7 +277,7 @@ def main():
         )
 
         if not participantes:
-            print("⚠  No hay encuestas completadas para exportar.")
+            print("No hay encuestas completadas para exportar.")
             return
 
         wb = openpyxl.Workbook()
@@ -297,7 +289,7 @@ def main():
 
         nombre = args.output or f"investigacion_digital_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
         wb.save(nombre)
-        print(f"✅ Archivo exportado: {nombre}")
+        print(f"Archivo exportado: {nombre}")
         print(f"   · {len(participantes)} encuestas completas")
         print(f"   · Hojas: Resumen, Datos crudos, Frecuencias")
 

@@ -1,6 +1,3 @@
-"""
-Entidad User — representa la tabla 'users' en PostgreSQL.
-"""
 import secrets
 from datetime import datetime, timezone, timedelta
 from app import db

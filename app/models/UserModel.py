@@ -1,7 +1,3 @@
-"""
-UserModel — lógica de autenticación.
-Aquí se maneja todo lo relacionado con usuarios: login, logout, creación, edición, roles y recuperación de contraseña.
-"""
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 from datetime import datetime, timezone
@@ -14,7 +10,7 @@ class UserModel:
     # ── Registro ────────────────────────────────────────────────────────────
     @staticmethod
     def create_user(username, fullname, email, password, role="viewer"):
-        """Crea un usuario nuevo con contraseña hasheada."""
+        
         user = User(
             username=username,
             fullname=fullname,
@@ -57,7 +53,7 @@ class UserModel:
     # ── Usuario actual ──────────────────────────────────────────────────────
     @staticmethod
     def get_current_user():
-        """Retorna el User de la sesión activa, o None."""
+        
         uid = session.get("user_id")
         if uid:
             return db.session.get(User, uid)

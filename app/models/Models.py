@@ -1,12 +1,3 @@
-"""
-Modelos de base de datos para el sistema de investigación.
-
-Tablas:
-- ConsentimientoLog : registro de aceptación de cookies y política de datos
-- Participante      : datos demográficos del encuestado
-- HabitosDigitales  : uso de redes sociales y plataformas
-- ConsecuenciasVividas : experiencias de riesgo digital
-"""
 from datetime import datetime, timezone
 from app import db
 
@@ -16,10 +7,7 @@ from app import db
 # ──────────────────────────────────────────────────────────────────────────────
 
 class ConsentimientoLog(db.Model):
-    """
-    Registra cada vez que un usuario acepta el consentimiento informado.
-    Cumple con Ley 1581/2012 (habeas data) y políticas de cookies.
-    """
+
     __tablename__ = "consentimiento_log"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -52,10 +40,7 @@ class ConsentimientoLog(db.Model):
 # ──────────────────────────────────────────────────────────────────────────────
 
 class Participante(db.Model):
-    """
-    Datos demográficos básicos del participante.
-    Vinculado 1-a-1 con el consentimiento para trazabilidad legal.
-    """
+
     __tablename__ = "participante"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -96,10 +81,7 @@ class Participante(db.Model):
 # ──────────────────────────────────────────────────────────────────────────────
 
 class HabitosDigitales(db.Model):
-    """
-    Uso de plataformas digitales, tipos de datos compartidos
-    y nivel de conciencia sobre privacidad.
-    """
+    
     __tablename__ = "habitos_digitales"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -151,10 +133,7 @@ class HabitosDigitales(db.Model):
 # ──────────────────────────────────────────────────────────────────────────────
 
 class ConsecuenciasVividas(db.Model):
-    """
-    Experiencias negativas o de riesgo digital que el participante
-    ha vivido en relación a sus datos personales.
-    """
+    
     __tablename__ = "consecuencias_vividas"
 
     id = db.Column(db.Integer, primary_key=True)

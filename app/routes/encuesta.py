@@ -14,7 +14,7 @@ encuesta_bp = Blueprint("encuesta", __name__)
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _anonimizar_ip(ip: str) -> str:
-    """Conserva solo los primeros 3 octetos de IPv4 para anonimización."""
+    
     if ip and "." in ip:
         partes = ip.split(".")
         return ".".join(partes[:3]) + ".0"
@@ -26,7 +26,7 @@ def _str_to_bool(valor: str) -> bool:
 
 
 def _get_participante_activo():
-    """Retorna el participante de la sesión actual o None."""
+    
     pid = session.get("participante_id")
     if pid:
         return db.session.get(Participante, pid)
